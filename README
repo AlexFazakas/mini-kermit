@@ -1,0 +1,36 @@
+Fazakas Alexandru
+321CC
+
+Implementarea temei
+
+Am ales sa nu folosesc structuri de date, ci sa scriu campul payload al
+structurii msg cum am nevoie in functie de pachetul utilizat.
+Transmiterea incepe prin a trimite un pachet de tipul SEND INIT de la
+sender catre receiver. Receiver-ul primeste pachetul si incearca sa trimita
+un ACK. De fiecare data cand cineva trimite un pachet, daca nu reuseste (sau
+ajunge corupt, in cazul senderului) retrimitem pachetul de atatea ori cat ne
+permite conexiunea. La 3 incercari esuate, conexiunea este inchisa.
+Dupa ce se stabilesc termenii conexiunii, fiecarui fisier dat ca argument
+sender-ului ii este transmis intai header-ul, apoi continutul cate 128 de
+octeti maxim per pachet. Receiver-ul primeste un pachet, scrie continutul
+sau in fisierul corespunzator, apoi incearca sa trimita un ACK.
+In utilities.c sunt definite corpurile celor 2 functii care se ocupa de
+trimitere (send_file) si scriere (write_file), pe langa alte functii utile
+temei (split_crc, increment_sequence, check_crc etc) care se ocupa cu
+verificarea sumei de control, incrementarea numarului de secventa sau
+impartirea pe 2 octeti a sumei de control (pentru a fi usor inserata in
+payload).
+
+Dificultati:
+
+Nu am reusit sa duc tema pana la capat, transmisia merge (oarecum) insa
+intampina unele chestii care o inceteaza (SIGSEGV uneori). Cred ca abordarea
+nu era una gresita, insa timpul alocat temei a fost redus si asta e (evident)
+vina mea.
+Consider ca tema nu prezenta un grad de dificultate prea ridicat.
+
+Feedback:
+
+O tema destul de interesanta, insa, in opinia mea, ca, multe campuri si
+definitii ce nu erau neaparat utile (precum acele campuri din DATA in pachetul
+de tip SEND INIT care erau oricum nule si nefolosite).
